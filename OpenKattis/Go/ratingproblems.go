@@ -3,12 +3,12 @@ package main
 import "fmt"
 
 func main() {
-	n := float32(NextInt())
-	k := float32(NextInt())
+	n := float32(1)
+	k := float32(1)
 
 	var sum float32
 	for i := 0; i < int(k); i++ {
-		sum += float32(NextInt())
+		sum += float32(1)
 	}
 
 	overall := float32(n - k)

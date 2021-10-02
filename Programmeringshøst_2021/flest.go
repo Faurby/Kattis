@@ -15,10 +15,10 @@ func main() {
 
 	//arrange words into map. String -> int
 	animals := strings.Fields(sc.Text())
-	var table = make(map[string]int)
+	var animalMap = make(map[string]int, len(animals))
 
 	for _, i := range animals {
-		table[i] = 0
+		animalMap[i] = 0
 	}
 
 	sc.Scan()
@@ -26,23 +26,61 @@ func main() {
 	for i := 0; i < n; i++ {
 
 		sc.Scan()
-		line := sc.Text()
+		line := CleanLine(sc.Text())
+		words := strings.Fields(line)
 
-		for key, _ := range table {
-			count := strings.Count(line, key)
-			table[key] += count
+		mostOfAnimal := CountAnimals(words, animalMap)
+		for key := range animalMap {
+			count := 0
+			for _, word := range words {
+				if word == key {
+					count++
+				}
+			}
+			if count == mostOfAnimal {
+				animalMap[key]++
+			}
 		}
 	}
 
-	fmt.Println(table)
+	for key, value := range animalMap {
+		if value == greatestAnimal(animalMap) {
+			fmt.Println(key)
+		}
+	}
+}
 
+func CleanLine(line string) string {
+	result := strings.ToLower(line)
+	result = strings.ReplaceAll(result, ",", "")
+	result = strings.ReplaceAll(result, ".", " ")
+	result = strings.ReplaceAll(result, "!", " ")
+	// fmt.Println(result)
+	return result
+}
+
+func CountAnimals(words []string, animalMap map[string]int) int {
+	var greatest int
+	for key := range animalMap {
+		count := 0
+		for _, word := range words {
+			if word == key {
+				count++
+			}
+		}
+		if count > greatest {
+			greatest = count
+		}
+	}
+	return greatest
+}
+
+func greatestAnimal(animalMap map[string]int) int {
 	greatest := 0
-	for _, i := range table {
+	for _, i := range animalMap {
 		if i > greatest {
 			greatest = i
 		}
 	}
-
-	fmt.Println(greatest)
-
+	return greatest
 }

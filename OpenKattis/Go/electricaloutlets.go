@@ -13,16 +13,14 @@ func main() {
 	sc.Scan()
 	n, _ := strconv.Atoi(sc.Text())
 
-	var sum int
 	var output []int
 	for i := 0; i < n; i++ {
+		sum := 0
 		sc.Scan()
 		strips, _ := strconv.Atoi(sc.Text())
-		fmt.Printf("Strips: %v", strips)
 		for j := 0; j < strips; j++ {
 			sc.Scan()
 			outlets, _ := strconv.Atoi(sc.Text())
-			fmt.Printf("outlets: %v", outlets)
 			if j == strips-1 {
 				sum += outlets
 			} else {

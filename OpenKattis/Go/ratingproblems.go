@@ -1,20 +1,36 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+)
 
 func main() {
-	n := float32(1)
-	k := float32(1)
+	sc := bufio.NewScanner(os.Stdin)
+	sc.Split(bufio.ScanWords)
+	sc.Scan()
 
-	var sum float32
+	n, _ := strconv.ParseFloat(sc.Text(), 32)
+
+	sc.Scan()
+	k, _ := strconv.ParseFloat(sc.Text(), 32)
+
+	var sum float64
 	for i := 0; i < int(k); i++ {
-		sum += float32(1)
+		sc.Scan()
+		number, _ := strconv.ParseFloat(sc.Text(), 32)
+		sum += number
 	}
 
-	overall := float32(n - k)
+	overall := n - k
 
-	output1 := float32((sum + (overall * 3)) / n)
-	output2 := float32((sum + (overall * -3)) / n)
+	bestcase := overall * float64(3)
+	worstcase := overall * float64(-3)
+
+	output1 := (sum + bestcase) / n
+	output2 := (sum + worstcase) / n
 
 	fmt.Printf("%f %f", output2, output1)
 

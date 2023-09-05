@@ -5,7 +5,7 @@ matches = {}
 people = []
 for i in range(n):
     personAndTheirPreferences = list(input().split())
-    preferences[personAndTheirPreferences[0]] = (0, personAndTheirPreferences[1:])
+    preferences[personAndTheirPreferences[0]] = personAndTheirPreferences[1:]
     matches[personAndTheirPreferences[0]] = ""
     people.append(personAndTheirPreferences[0])
 
@@ -19,15 +19,15 @@ def rPrefersP(p, r, rPreferences):
     return rPreferences.index(p) < rPreferences.index(matches[r])
 
 while proposers: # With great help from the legendary Anton Bertelsen
-    p = proposers.pop()
-    pIndex, pPreferences = preferences[p]
+    p = proposers.pop(0)
+    pPreferences = preferences[p]
 
     # check if p is free
     if matches[p] != "":
         continue
     else:
-        r = pPreferences[pIndex]
-        rIndex, rPreferences = preferences[r]
+        r = pPreferences.pop(0)
+        rPreferences = preferences[r]
 
         # check if r is free
         if matches[r] == "":
@@ -41,7 +41,7 @@ while proposers: # With great help from the legendary Anton Bertelsen
 
                 matchPairs(p, r)
             else: # r prefers their current match
-                preferences[p] = (pIndex + 1, pPreferences)
+                preferences[p] = pPreferences
                 proposers.append(p)
 
 for i in range(n//2):

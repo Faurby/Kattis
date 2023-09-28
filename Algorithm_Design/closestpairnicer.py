@@ -14,18 +14,19 @@ def dist(p1, p2):
     return ((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)**0.5
 
 def closestPairOnLine(coordinates, minimumDistance): # For subtask 1
-    closetPairOnLine = ((),())
-    coordinates.sort(key=lambda tup: tup[1])
+    closestPair = ((),())
+    coordinates.sort(key=lambda point: point[1])
 
     for i in range(len(coordinates)):
         for j in range(i+1, len(coordinates)):
             if (coordinates[j][1] - coordinates[i][1]) >= minimumDistance:
                 break
-            if dist(coordinates[i], coordinates[j]) < minimumDistance:
-                minimumDistance = dist(coordinates[i], coordinates[j])
-                closetPairOnLine = ((coordinates[i][0], coordinates[i][1]), (coordinates[j][0], coordinates[j][1]))
+            currentDistance = dist(coordinates[i], coordinates[j])
+            if currentDistance < minimumDistance:
+                minimumDistance = currentDistance
+                closestPair = ((coordinates[i][0], coordinates[i][1]), (coordinates[j][0], coordinates[j][1]))
 
-    return (closetPairOnLine, minimumDistance)
+    return (closestPair, minimumDistance)
 
 def checkDistanceToMiddleLine(dist, middlevalue, point):
     return middlevalue-dist < point[0] < middlevalue+dist 
@@ -52,8 +53,8 @@ def split(points, optimaldistance): # With great help and guidance from the lege
         # Find the points that are within the minimum distance of the middle line
         middleLine = (points[n-1][0] + points[n][0])/2
         filteredPoints = list(filter(lambda ppoints: checkDistanceToMiddleLine(minimumDistance, middleLine, ppoints), points))
-        final, finaldist = closestPairOnLine(filteredPoints, minimumDistance)
-        return (final, finaldist) if finaldist < minimumDistance else (closestPair, minimumDistance)
+        closestPairMiddleLine, minimumDistanceMiddleLine = closestPairOnLineQ(filteredPoints, minimumDistance)
+        return (closestPairMiddleLine, minimumDistanceMiddleLine) if minimumDistanceMiddleLine < minimumDistance else (closestPair, minimumDistance)
 
 closestPair, distance = split(coordinates, float("inf"))
 
